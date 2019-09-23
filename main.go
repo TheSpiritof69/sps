@@ -41,7 +41,7 @@ func performAction(command string) {
 	if call.Err != nil {
 		switch call.Err.(type) {
 		case dbus.Error:
-			obj := conn.Object("org.mpris.MediaPlayer2.google-play-music-desktop-player", path)
+			obj := conn.Object("org.mpris.MediaPlayer2.google_play_music_desktop_player", path)
 			call := obj.Call(memb+"."+command, 0)
 			fmt.Println(call.Done)
 			if call.Err != nil {
@@ -63,7 +63,7 @@ func retrieveInfo(info string) *dbus.Variant {
 	if err != nil {
 		switch err.(type) {
 		case dbus.Error:
-			obj := conn.Object("org.mpris.MediaPlayer2.google-play-music-desktop-player", path)
+			obj := conn.Object("org.mpris.MediaPlayer2.google_play_music_desktop_player", path)
 			playerinfo, err := obj.GetProperty("org.mpris.MediaPlayer2.Player." + info)
 			if err != nil {
 				fmt.Println("No media player is currently running")
@@ -80,7 +80,7 @@ func retrieveInfo(info string) *dbus.Variant {
 
 func setProp(volume float64) {
 	conn, _ := dbus.SessionBus()
-	obj := conn.Object("org.mpris.MediaPlayer2.google-play-music-desktop-player", path)
+	obj := conn.Object("org.mpris.MediaPlayer2.google_play_music_desktop_player", path)
 	call := obj.Call("org.freedesktop.DBus.Properties.Set", 0, "org.mpris.MediaPlayer2.Player", "Volume", volume)
 	if call.Err != nil {
 		switch call.Err.(type) {
@@ -158,7 +158,7 @@ func (c *metadata) listener() {
 	sptfy := conn.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
 		"sender='"+dest+"', path='/org/mpris/MediaPlayer2', type='signal', member='PropertiesChanged'")
 	gpmdp := conn.BusObject().Call("org.freedesktop.DBus.AddMatch", 0,
-		"sender='org.mpris.MediaPlayer2.google-play-music-desktop-player', path='/org/mpris/MediaPlayer2', type='signal', member='PropertiesChanged'")
+		"sender='org.mpris.MediaPlayer2.google_play_music_desktop_player', path='/org/mpris/MediaPlayer2', type='signal', member='PropertiesChanged'")
 	//apparently we never go here?
 	if sptfy.Err != nil { //apparently we never go here?
 		fmt.Println(os.Stderr, "failed to add match: ", sptfy.Err)
